@@ -1,5 +1,5 @@
 currentDate = moment().format('dddd, MMMM Do YYYY');
-
+var currentTime = moment().format("H A");
 var planWorkDay = [
     { time: "9am", event:""}
 ];
@@ -22,10 +22,21 @@ function displayLocalStorage() {
     for (let i = 9; i <= 18; i++) {
         var userData = localStorage.getItem(`hour-${i}`);
         var textAreaElement = $(`#hour-${i}`);
-        console.log(textAreaElement)
+
         if (userData !== null) {
-            textAreaElement.val(userData)
-            console.log(textAreaElement.val())
+            textAreaElement[0].children[1].innerHTML = userData;
         }
+    }
+}
+
+function highlightNow(time) {
+    var currentActivity = moment(currentTime, "H A");
+    var entryActivity = moment(time, "H A")
+    if (currentActivity.isBefore(entryActivity) === true) {
+        return "future";
+    } else if (currentActivity.isAfter(entryActivity) === true) {
+        return "past"
+    } else {
+        return "present";
     }
 }
